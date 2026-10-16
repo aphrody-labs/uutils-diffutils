@@ -6,7 +6,7 @@
 use crate::params::{parse_params, Format};
 use crate::utils::report_failure_to_read_input_file;
 use crate::{context_diff, ed_diff, normal_diff, side_diff, unified_diff};
-use std::env::ArgsOs;
+
 use std::ffi::OsString;
 use std::fs;
 use std::io::{self, stdout, Read, Write};
@@ -18,7 +18,7 @@ use std::process::{exit, ExitCode};
 //     An exit status of 0 means no differences were found,
 //     1 means some differences were found,
 //     and 2 means trouble.
-pub fn main(opts: Peekable<ArgsOs>) -> ExitCode {
+pub fn main<I: Iterator<Item = OsString>>(opts: Peekable<I>) -> ExitCode {
     let params = parse_params(opts).unwrap_or_else(|error| {
         eprintln!("{error}");
         exit(2);

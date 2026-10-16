@@ -4,7 +4,7 @@
 // files that was distributed with this source code.
 
 use crate::utils::format_failure_to_read_input_file;
-use std::env::{self, ArgsOs};
+use std::env;
 use std::ffi::OsString;
 use std::io::{BufRead, BufReader, BufWriter, Read, Write};
 use std::iter::Peekable;
@@ -448,7 +448,7 @@ pub fn cmp(params: &Params) -> Result<Cmp, String> {
 //     An exit status of 0 means no differences were found,
 //     1 means some differences were found,
 //     and 2 means trouble.
-pub fn main(opts: Peekable<ArgsOs>) -> ExitCode {
+pub fn main<I: Iterator<Item = OsString>>(opts: Peekable<I>) -> ExitCode {
     let params = match parse_params(opts) {
         Ok(param) => param,
         Err(e) => {
